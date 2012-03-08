@@ -58,6 +58,7 @@ class Game < ActiveRecord::Base
   def duration
     return 60.minutes if home_team.abbreviation =~ /^(SS|SRSS|8U)/
     return 60.minutes if home_team.abbreviation =~ /^10U/ && military_start_time == "18:15"
+    return 60.minutes if home_team.abbreviation =~ /^10US/ && ['Sat','Sun'].include?(start_time.strftime("%a"))
     75.minutes
   end
 end

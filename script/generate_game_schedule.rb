@@ -11,7 +11,7 @@ def time_with_meridiem time
 end
 
 def parsed_date year, date, time
-  date = DateTime.strptime("#{year} #{date} #{time}", '%Y %a %m/%d %I:%M %p') #.strftime("%m-%d-%Y")
+  date = DateTime.strptime("#{year} #{date} #{time}", '%Y %a %m/%d %I:%M %p')
 end
 
 def field_number field

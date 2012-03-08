@@ -37,4 +37,9 @@ gem 'jquery-rails'
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
 gem 'mysql2'
-gem 'factory_girl_rails'
+
+group :development, :test do
+  gem "mocha"
+  gem 'factory_girl_rails'
+  gem 'rspec-rails'
+end

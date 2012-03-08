@@ -1,15 +1,16 @@
-require 'test_helper'
+require 'spec_helper'
 
-class TeamTest < ActiveSupport::TestCase
-  test "abbreviation is required" do
+describe Team do
+  it "requires abbreviation" do
     team = FactoryGirl.build(:team, :abbreviation => nil)
     assert_equal false, team.valid?
     assert_equal ["can't be blank"], team.errors[:abbreviation]
   end
 
-  test "name is required" do
+  it "requires name" do
     team = FactoryGirl.build(:team, :name => nil)
     assert_equal false, team.valid?
     assert_equal ["can't be blank"], team.errors[:name]
   end
 end
+
