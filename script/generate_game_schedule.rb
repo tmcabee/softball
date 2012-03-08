@@ -22,7 +22,7 @@ def sanitize team
   team.gsub('*','').strip
 end
 
-file = File.join File.dirname(__FILE__), 'schedule_ver_3.csv'
+file = File.join File.dirname(__FILE__), 'schedule_ver_3a.csv'
 
 mode = :version
 schedule = nil
@@ -32,7 +32,7 @@ times = nil
 CSV.foreach(file) do |row|
   if mode == :version
     if row[2] && row[2] =~ /Version/
-      version = row[2].scan(/Version (\d+).*/).flatten.first
+      version = row[2].scan(/Version (\w+).*/).flatten.first
       schedule = Schedule.first_or_create! :version => version
       mode = :date
     end

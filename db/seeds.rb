@@ -46,7 +46,7 @@ universal_8u = {
 
 slow_10u = {
   '10US1' => '10US1 Walters',
-  '10US2' => '10US2 Bennett',
+  '10US2' => '10US2Bennett',
   '10US3' => '10US3 Stancil',
   '10US4' => '10US4 Johnson',
   '10US5' => '10US5 Martin',
@@ -102,8 +102,8 @@ fast_15_plus = {
   '15F1' => 'FP15U+1 Waters',
   '15F2' => 'FP15U+2 Defreese',
   '15F3' => 'FP15U+3 Guthrie',
-  '15F4' => 'FP15U+ 4 Bowman',
-  '15F5' => 'FP15U+5 Mirabelli',
+  '15F4' => 'FP15+ 4 Bowman',
+  '15F5' => 'FP15+5 Mirabelli',
 }
 
 slow_19u = {
