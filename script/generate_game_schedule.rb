@@ -22,7 +22,7 @@ def sanitize team
   team.gsub('*','').strip
 end
 
-file = File.join File.dirname(__FILE__), 'schedule_ver_3a.csv'
+file = File.join File.dirname(__FILE__), 'schedules', 'schedule_ver_3a.csv'
 
 mode = :version
 schedule = nil
