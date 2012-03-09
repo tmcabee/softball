@@ -2,7 +2,7 @@ class GamesController < ApplicationController
   # GET /games
   # GET /games.json
   def index
-    @games = Game.all
+    @games = Game.all :include => [:schedule, :field, :home_team, :away_team]
 
     respond_to do |format|
       format.html # index.html.erb

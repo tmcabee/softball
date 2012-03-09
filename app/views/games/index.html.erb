@@ -17,11 +17,11 @@
 <% @games.each do |game| %>
   <tr>
     <td><%= game.unique_id %></td>
-    <td><%= game.schedule_id %></td>
-    <td><%= game.field_id %></td>
-    <td><%= game.start_time %></td>
-    <td><%= game.home_team_id %></td>
-    <td><%= game.away_team_id %></td>
+    <td><%= game.schedule.version %></td>
+    <td><%= game.field.description %></td>
+    <td><%= game.start_time.strftime("%m/%d/%Y %I:%M %P") %></td>
+    <td><%= game.home_team.name %></td>
+    <td><%= game.away_team.name %></td>
     <td><%= game.canceled %></td>
     <td><%= link_to 'Show', game %></td>
     <td><%= link_to 'Edit', edit_game_path(game) %></td>
