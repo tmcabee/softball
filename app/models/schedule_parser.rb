@@ -55,19 +55,22 @@ class ScheduleParser
     end
   end
   
+  #TODO: Parse season so I can stop hard-coding '2012'
   def create_games_from row
     row.each_with_index do |col, index|
       next unless col
       home, away = col.split("VS.")
       next unless away
-      Game.create_from! @schedule, parsed_date('2012', @date, time_with_meridiem(@times[index])), field_number(@fields[index]), sanitize(home), sanitize(away)
+      Game.create_from! @schedule, start_time('2012', @date, time_with_meridiem(@times[index])), field_number(@fields[index]), sanitize(home), sanitize(away)
     end 
   end
   
-  def parsed_date year, date, time
+  def start_time year, date, time
     DateTime.strptime("#{year} #{date} #{time}", '%Y %a %m/%d %I:%M %p')
   end
 
+  #ASSUMES: No weekend games start before 9am and no weeknight games start at (or after) 9pm
+  #TODO: Pass in date so I'll have 'day of week' info and remove the assumptions above
   def time_with_meridiem time
     hour, minutes = time.split(':')
     meridiem = (hour.to_i == 12 || hour.to_i < 9) ? "PM" : "AM"
