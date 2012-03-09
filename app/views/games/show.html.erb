@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Unique:</b>
+  <%= @game.unique_id %>
+</p>
+
+<p>
+  <b>Schedule:</b>
+  <%= @game.schedule_id %>
+</p>
+
+<p>
+  <b>Field:</b>
+  <%= @game.field_id %>
+</p>
+
+<p>
+  <b>Start time:</b>
+  <%= @game.start_time %>
+</p>
+
+<p>
+  <b>Home team:</b>
+  <%= @game.home_team_id %>
+</p>
+
+<p>
+  <b>Away team:</b>
+  <%= @game.away_team_id %>
+</p>
+
+<p>
+  <b>Canceled:</b>
+  <%= @game.canceled %>
+</p>
+
+
+<%= link_to 'Edit', edit_game_path(@game) %> |
+<%= link_to 'Back', games_path %>
