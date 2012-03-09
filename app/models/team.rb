@@ -1,3 +1,5 @@
+#TODO: Tie to a season, since teams will need to change each season
+#TODO: Tie to a league (ie, 8U, 10US, 10UF, etc) so I can infer some of the abbreviation and/or name
 class Team < ActiveRecord::Base
   validates_presence_of :abbreviation, :name
   

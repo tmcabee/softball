@@ -15,12 +15,12 @@ class Game < ActiveRecord::Base
 
   def self.create_from! schedule, date_time, field_number, home, away
     attributes = {
-      :unique_id => "#{date_time.strftime("%Y%m%d%H%M")}#{field_number}",
-      :schedule => schedule,
-      :field => Field.find_by_number(field_number),
+      :unique_id  => "#{date_time.strftime("%Y%m%d%H%M")}#{field_number}",
+      :schedule   => schedule,
       :start_time => date_time,
-      :home_team => Team.find_by_abbreviation(home),
-      :away_team => Team.find_by_abbreviation(away)
+      :field      => Field.find_by_number(field_number),
+      :home_team  => Team.find_by_abbreviation(home),
+      :away_team  => Team.find_by_abbreviation(away)
     }
     game = Game.where(attributes.slice(:unique_id)).first_or_initialize
     game.update_attributes! attributes
@@ -56,10 +56,11 @@ class Game < ActiveRecord::Base
     canceled? ? 'Cancel' : ''
   end
 
+  #TODO: Confirm these hacks are necessary
   def duration
-    return 60.minutes if home_team.abbreviation =~ /^(SS|SRSS|8U)/
-    return 60.minutes if home_team.abbreviation =~ /^10U/ && military_start_time == "18:15"
-    return 60.minutes if home_team.abbreviation =~ /^10US/ && ['Sat','Sun'].include?(start_time.strftime("%a"))
+    return 60.minutes if home_team.abbreviation =~ /^(SS|SRSS|8U)/ # Once hacks below are removed, 10US should be added to this list
+    return 60.minutes if home_team.abbreviation =~ /^10U/ && military_start_time == "18:15" # HACK: 10UF games should be 75 minutes
+    return 60.minutes if home_team.abbreviation =~ /^10US/ && ['Sat','Sun'].include?(start_time.strftime("%a")) # HACK: 10US games should be 60 regardless of weekday/weeknight
     75.minutes
   end
 end
