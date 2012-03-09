@@ -1,10 +1,18 @@
 require 'csv'
 
+module Mode
+  VERSION = :version
+  DATE    = :date
+  FIELDS  = :fields
+  TIMES   = :times
+  GAMES   = :games
+end
+
 class ScheduleParser
   
   def initialize file
     @file = file
-    @mode = :version
+    @mode = Mode::VERSION
   end
   
   def parse
@@ -15,30 +23,30 @@ class ScheduleParser
 
     CSV.foreach(@file) do |row|
       case @mode
-      when :version
+      when Mode::VERSION
         if row[2] && row[2] =~ /Version/
           version = row[2].scan(/Version (\w+).*/).flatten.first
           schedule = Schedule.first_or_create! :version => version
-          @mode = :date
+          @mode = Mode::DATE
         end
-      when :date
+      when Mode::DATE
         if row[0]
           date = row[0]
-          @mode = :fields
+          @mode = Mode::FIELDS
         end
-      when :fields
+      when Mode::FIELDS
         if row.size > 0
           fields = row
-          @mode = :times
+          @mode = Mode::TIMES
         else
-          @mode = :date
+          @mode = Mode::DATE
         end
       when :times
         if row.size > 0
           times = row
-          @mode = :games
+          @mode = Mode::GAMES
         else
-          @mode = :date
+          @mode = Mode::DATE
         end
       when :games
         row.each_with_index do |col, index|
@@ -48,7 +56,7 @@ class ScheduleParser
             Game.create_from! schedule, parsed_date('2012', date, time_with_meridiem(times[index])), field_number(fields[index]), sanitize(home), sanitize(away)
           end
         end 
-        @mode = :times
+        @mode = Mode::TIMES
       end
     end
   end
@@ -56,7 +64,7 @@ class ScheduleParser
   protected
   
   def time_with_meridiem time
-    hour, = time.split(':')
+    hour, minutes = time.split(':')
     meridiem = (hour.to_i == 12 || hour.to_i < 9) ? "PM" : "AM"
     "#{time} #{meridiem}"
   end
