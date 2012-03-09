@@ -7,12 +7,13 @@ class Game < ActiveRecord::Base
   validates_presence_of :unique_id, :field, :start_time, :home_team, :away_team
   validates_uniqueness_of :unique_id
 
+  TYPE = 'Game'
+  
   scope :for_team, lambda{ |team| 
     { :conditions => ["home_team_id = ? or away_team_id=?", team.id, team.id] }
   }
 
   def self.create_from! schedule, date_time, field_number, home, away
-    # puts "#{schedule.version}, #{date_time.strftime("%m-%d-%Y")}, #{date_time.strftime("%H:%M")}, #{field_number}, #{home}, #{away}"
     attributes = {
       :unique_id => "#{date_time.strftime("%Y%m%d%H%M")}#{field_number}",
       :schedule => schedule,
@@ -33,7 +34,7 @@ class Game < ActiveRecord::Base
       military_end_time,
       home_team.name,
       field.description,
-      'Game',
+      TYPE,
       away_team.name,
       '',
       canceled_text ].join(',')
