@@ -4,7 +4,7 @@ class Game < ActiveRecord::Base
   belongs_to :field
   belongs_to :schedule
   
-  validates_presence_of :unique_id, :field, :start_time, :home_team, :away_team
+  validates_presence_of :unique_id, :schedule, :field, :start_time, :home_team, :away_team
   validates_uniqueness_of :unique_id
 
   TYPE = 'Game'
