@@ -44,6 +44,8 @@ class ScheduleParser
         @mode = Mode::TIMES
       end
     end
+    
+    @schedule
   end
   
   protected
@@ -51,7 +53,7 @@ class ScheduleParser
   def identify_schedule_from row
     if row[2] =~ /Version/
       version = row[2].scan(/Version (\w+).*/).flatten.first
-      @schedule = Schedule.first_or_create! :version => version
+      @schedule = Schedule.where(:version => version).first_or_create!
     end
   end
   

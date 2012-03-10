@@ -24,7 +24,6 @@ class Game < ActiveRecord::Base
     }
     game = Game.where(attributes.slice(:unique_id)).first_or_initialize
     game.update_attributes! attributes
-    puts game.to_csv
   end
   
   def to_csv
@@ -53,7 +52,7 @@ class Game < ActiveRecord::Base
   end
   
   def canceled_text
-    canceled? ? 'Cancel' : ''
+    canceled? ? 'CANCELLED' : ''
   end
 
   #TODO: Confirm these hacks are necessary
