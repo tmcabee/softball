@@ -10,7 +10,7 @@ class Game < ActiveRecord::Base
   TYPE = 'Game'
   
   scope :for_team, lambda{ |team| 
-    { :conditions => ["home_team_id = ? or away_team_id=?", team.id, team.id] }
+    { :conditions => ["(home_team_id = ? or away_team_id=?) and canceled=?", team.id, team.id,false] }
   }
 
   def self.create_from! schedule, date_time, field_number, home, away
@@ -20,7 +20,8 @@ class Game < ActiveRecord::Base
       :start_time => date_time,
       :field      => Field.find_by_number(field_number),
       :home_team  => Team.find_by_abbreviation(home),
-      :away_team  => Team.find_by_abbreviation(away)
+      :away_team  => Team.find_by_abbreviation(away),
+      :canceled   => false
     }
     game = Game.where(attributes.slice(:unique_id)).first_or_initialize
     game.update_attributes! attributes
