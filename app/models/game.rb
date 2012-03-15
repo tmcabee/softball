@@ -10,7 +10,7 @@ class Game < ActiveRecord::Base
   TYPE = 'Game'
   
   scope :for_team, lambda{ |team| 
-    { :conditions => ["(home_team_id = ? or away_team_id=?) and canceled=?", team.id, team.id,false] }
+    { :conditions => ["(home_team_id = ? or away_team_id=?) and canceled=?", team.id, team.id, false] }
   }
 
   def self.create_from! schedule, date_time, field_number, home, away

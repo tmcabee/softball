@@ -1,6 +1,6 @@
 require 'rubygems'
 
-puts "Usage: rails runner script/generate_game_schedule.rb <schedule_file>" unless ARGV[0]
+abort("Usage: rails runner script/generate_game_schedule.rb <schedule_file>") if ARGV.empty?
 
 file = File.join File.dirname(__FILE__), "schedules", "#{ARGV[0]}.csv"
 schedule = ScheduleParser.new(file).parse
