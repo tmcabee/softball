@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120309040824) do
+ActiveRecord::Schema.define(:version => 20120816043613) do
 
   create_table "fields", :force => true do |t|
     t.integer  "number"
@@ -30,6 +30,24 @@ ActiveRecord::Schema.define(:version => 20120309040824) do
     t.boolean  "canceled",     :default => false
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
+  end
+
+  create_table "practice_schedules", :force => true do |t|
+    t.string   "version"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "practices", :force => true do |t|
+    t.string   "unique_id"
+    t.integer  "practice_schedule_id"
+    t.integer  "field_id"
+    t.datetime "start_time"
+    t.integer  "team_id"
+    t.string   "note"
+    t.boolean  "canceled",             :default => false
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
   end
 
   create_table "schedules", :force => true do |t|
