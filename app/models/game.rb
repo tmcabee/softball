@@ -32,10 +32,10 @@ class Game < ActiveRecord::Base
       date,
       military_start_time,
       military_end_time,
-      home_team.name,
+      home_team.abbreviation,
       field.description,
       TYPE,
-      away_team.name,
+      away_team.abbreviation,
       '',
       canceled_text ].join(',')
   end

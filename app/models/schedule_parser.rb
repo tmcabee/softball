@@ -21,7 +21,7 @@ class ScheduleParser
   
   def parse
     CSV.foreach(@file) do |row|
-      if row.blank?
+      unless row.any?
         @mode = Mode::DATE if @schedule
         next
       end
@@ -61,7 +61,7 @@ class ScheduleParser
   def create_games_from row
     row.each_with_index do |col, index|
       next unless col
-      home, away = col.split("VS.")
+      home, away = col.split("vs.")
       next unless away
       Game.create_from! @schedule, start_time('2012', @date, time_with_meridiem(@times[index])), field_number(@fields[index]), sanitize(home), sanitize(away)
     end 
