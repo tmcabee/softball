@@ -15,7 +15,7 @@ class Game < ActiveRecord::Base
 
   def self.create_from! schedule, date_time, field_number, home, away
     attributes = {
-      :unique_id  => "#{date_time.strftime("%Y%m%d%H%M")}#{field_number}",
+      :unique_id  => "#{date_time.strftime("%Y%m%d%H%M")}#{field_number}#{home}#{away}",
       :schedule   => schedule,
       :start_time => date_time,
       :field      => Field.find_by_number(field_number),
