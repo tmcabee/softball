@@ -11,7 +11,23 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120816043613) do
+ActiveRecord::Schema.define(:version => 20120903043026) do
+
+  create_table "concessions_events", :force => true do |t|
+    t.string   "unique_id"
+    t.integer  "concessions_schedule_id"
+    t.datetime "start_time"
+    t.integer  "team_id"
+    t.boolean  "canceled",                :default => false
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
+  end
+
+  create_table "concessions_schedules", :force => true do |t|
+    t.string   "version"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "fields", :force => true do |t|
     t.integer  "number"
