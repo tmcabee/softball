@@ -1,6 +1,6 @@
 require 'rubygems'
 
-abort("Usage: rails runner script/generate_master_registration_sheet.rb <complete_registration_file>") if ARGV.empty?
+abort("Usage: rails runner script/generate_skills_test_sheets.rb <complete_registration_file>") if ARGV.empty?
 
 file = File.join File.dirname(__FILE__), "registrations", "#{ARGV[0]}.csv"
 registration_list = RegistrationParser.new(file).parse

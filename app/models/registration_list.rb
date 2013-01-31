@@ -26,25 +26,55 @@ class RegistrationList
   def master_list
   	headers = Registration::Format::MASTER
     to_csv headers do
-      @registrations.sort_by { |reg| "#{reg[headers[0]]}|#{reg[headers[1]]}" }
+      unskilled_or_needs_ticket.sort_by { |reg| "#{reg[headers[0]]}|#{reg[headers[1]]}" }
     end
   end
 
   def league_director_list_for division
-  	csv_for division, Registration::Format::LD
+  	skills_data_for division, Registration::Format::LD
   end
 
   def coaches_list_for division
-  	csv_for division, Registration::Format::COACHES
+  	skills_data_for division, Registration::Format::COACHES
+  end
+
+  def league_director_draft_for division
+    draft_data_for division, ld_draft_format_for(division)
+  end
+
+  def coaches_draft_for division
+    draft_data_for division, Registration::DraftFormat::COACHES
   end
 
   protected
 
-  def divisions
-    @divisions ||= @registrations.group_by { |reg| reg['Registration Title']}
+  def ld_draft_format_for division
+    division == Divisions::SP19U ? Registration::DraftFormat::LD_19U : Registration::DraftFormat::LD
   end
 
-  def csv_for division, headers
+  def registrations
+    @registrations
+  end
+
+  def unskilled_registrations
+    @registrations.select { |reg| reg['Rating'].to_i == 0 }
+  end
+
+  def unskilled_or_needs_ticket
+    @registrations.select { |reg| reg['Rating'].to_i == 0 || reg['Needs Ticket'] == 'YES' }
+  end
+
+  def divisions
+    @divisions ||= registrations.group_by { |reg| reg['Registration Title']}
+  end
+
+  def draft_data_for division, headers
+    to_csv headers do
+      divisions[division[:key]].sort_by { |reg| [-reg['Rating'], reg['Last Name'], reg['First Name']] }
+    end
+  end
+
+  def skills_data_for division, headers
   	to_csv headers do
   	  normal = divisions[division[:key]].select { |reg| division[:abbreviation] == '14US' || reg['PlayUpRequest'] != 'Checked' }
   	  play_ups = division[:play_up_from] ? divisions[division[:play_up_from][:key]].select { |reg| reg['PlayUpRequest'] == 'Checked' } : []
@@ -57,10 +87,9 @@ class RegistrationList
   	end
   end
 
-  def to_csv headers, &registrations
-  	content = registrations.call
+  def to_csv headers, &records
   	index = 0
-  	([(['Num'] + headers).join(',')] + content.map { |registration| registration.to_csv((index += 1), headers) } + blanks(index+1)).join("\n")
+  	([(['Num'] + headers).join(',')] + records.call.map { |registration| registration.to_csv((index += 1), headers) } + blanks(index+1)).join("\n")
   end
 
   def blanks index
