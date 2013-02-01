@@ -15,8 +15,9 @@ class RegistrationList
 	  SP19U = { :abbreviation => '19US', :key => '19U Slow-Pitch',       :play_up_from => SP14U }
   end
 
-  def initialize
+  def initialize options
   	@registrations = []
+    @options = [options]
   end
   
   def << registration
@@ -26,7 +27,7 @@ class RegistrationList
   def master_list
   	headers = Registration::Format::MASTER
     to_csv headers do
-      unskilled_or_needs_ticket.sort_by { |reg| "#{reg[headers[0]]}|#{reg[headers[1]]}" }
+      registrations(true).sort_by { |reg| "#{reg[headers[0]]}|#{reg[headers[1]]}" }
     end
   end
 
@@ -52,16 +53,10 @@ class RegistrationList
     division == Divisions::SP19U ? Registration::DraftFormat::LD_19U : Registration::DraftFormat::LD
   end
 
-  def registrations
-    @registrations
-  end
-
-  def unskilled_registrations
-    @registrations.select { |reg| reg['Rating'].to_i == 0 }
-  end
-
-  def unskilled_or_needs_ticket
-    @registrations.select { |reg| reg['Rating'].to_i == 0 || reg['Needs Ticket'] == 'YES' }
+  def registrations master_sheet = false
+    return @registrations unless @options.include? 'make_up'
+    master_sheet ? @registrations.select { |reg| reg.rating_missing? || reg['Needs Ticket'] == 'YES' } : 
+                   @registrations.select { |reg| reg.rating_missing? }
   end
 
   def divisions
@@ -77,7 +72,7 @@ class RegistrationList
   def skills_data_for division, headers
   	to_csv headers do
   	  normal = divisions[division[:key]].select { |reg| division[:abbreviation] == '14US' || reg['PlayUpRequest'] != 'Checked' }
-  	  play_ups = division[:play_up_from] ? divisions[division[:play_up_from][:key]].select { |reg| reg['PlayUpRequest'] == 'Checked' } : []
+  	  play_ups = division[:play_up_from] && divisions[division[:play_up_from][:key]] ? divisions[division[:play_up_from][:key]].select { |reg| reg['PlayUpRequest'] == 'Checked' } : []
 
       message = "For #{division[:abbreviation]}, adding #{normal.size} normal" 
       message += " and #{play_ups.size} play-ups from #{division[:play_up_from][:abbreviation]}" if play_ups.any?

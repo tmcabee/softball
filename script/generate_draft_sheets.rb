@@ -6,7 +6,6 @@ file = File.join File.dirname(__FILE__), "registrations", "#{ARGV[0]}.csv"
 registration_list = RegistrationParser.new(file).parse
 
 RegistrationList::Divisions.constants.each do |const|
-  # next if const == :SS || const == :SP19U
   division = RegistrationList::Divisions.const_get(const)
   File.open("drafts/#{division[:abbreviation]}_league_director.csv", "w") do |f|
     f.puts registration_list.league_director_draft_for division

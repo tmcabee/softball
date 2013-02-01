@@ -2,13 +2,14 @@ require 'csv'
 
 class RegistrationParser
   
-  def initialize file
+  def initialize file, options
     @file = file
     @headers = nil
+    @options = options
   end
   
   def parse
-    list = RegistrationList.new
+    list = RegistrationList.new @options
     CSV.foreach(@file) do |row|
       look_for_headers_in(row) if @headers.nil?
       unless is_registration_data?(row)

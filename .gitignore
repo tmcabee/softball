@@ -17,6 +17,6 @@ vendor/bundle
 /tmp
 .DS_Store
 
-/output/*
-/drafts/*
-/script/registrations/*
+skills/*
+drafts/*
+script/registrations/*

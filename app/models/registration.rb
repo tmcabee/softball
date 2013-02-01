@@ -1,7 +1,7 @@
 class Registration
 
   class Format
-    MASTER = ['Last Name', 'First Name', 'Registration Title', 'Birthday', 'PlayUpRequest', 'ConcessionRequirement', 'Deposit Check Received', 'CC Invoice', 'Check No.', 'Cost', 'Paid', 'Waitlisted', 'Needs Ticket', 'Notes']
+    MASTER = ['Last Name', 'First Name', 'Needs Ticket', 'Balance', 'Deposit Check Received', 'Registration Title', 'Birthday', 'PlayUpRequest', 'ConcessionRequirement', 'CC Invoice', 'Check No.', 'Cost', 'Paid', 'Waitlisted', 'Notes']
     COACHES = ['Last Name', 'First Name', 'Hitting', 'Running', 'Fielding', 'Throwing', 'TOTAL', 'Pitching', 'Catching', 'Coach Notes']
     LD = ['Last Name', 'First Name', 'Needs Ticket']
   end
@@ -28,6 +28,12 @@ class Registration
     @attributes[column_name]
   end
   
+  def rating_missing?
+    @attributes['Rating'].to_i == 0 && 
+    @attributes['Registration Title'] != "Sugar & Spice" && 
+    @attributes['Registration Title'] != "19U Slow-Pitch"
+  end
+
   protected
 
   def initialize attributes
@@ -54,6 +60,7 @@ class Registration
       attrs['Positions'] = experience.join(',')
       attrs['Age'] = age(original['Birthday'])
       attrs['Rating'] = 0 if original['Registration Title'] =~ /19U/
+      attrs['Balance'] = original['Cost'].to_i - original['Paid'].to_i
     end
   end
 
