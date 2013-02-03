@@ -1,16 +1,16 @@
 class Registration
 
   class Format
-    MASTER = ['Last Name', 'First Name', 'Needs Ticket', 'Balance', 'Deposit Check Received', 'Registration Title', 'Birthday', 'PlayUpRequest', 'ConcessionRequirement', 'CC Invoice', 'Check No.', 'Cost', 'Paid', 'Waitlisted', 'Notes']
+    MASTER = ['Record ID', 'Last Name', 'First Name', 'Needs Ticket', 'Balance', 'Deposit Check Received', 'Registration Title', 'Birthday', 'PlayUpRequest', 'ConcessionRequirement', 'CC Invoice', 'Check No.', 'Cost', 'Paid', 'Waitlisted', 'Notes']
     COACHES = ['Last Name', 'First Name', 'Hitting', 'Running', 'Fielding', 'Throwing', 'TOTAL', 'Pitching', 'Catching', 'Coach Notes']
     LD = ['Last Name', 'First Name', 'Needs Ticket']
   end
 
   class DraftFormat
-    COACHES = ['Last Name', 'First Name', 'Rating', 'Birthday', 'Age', 'WCGS', 'Other', 'All-Star', 'Travel', 'Positions', 'Special', 'CoachRequestName', 'PlayerRequestNames', 'JerseySize']
-    LD = COACHES + ['ConfidentialCoachName']
-    COACHES_19U = ['Last Name', 'First Name', 'Birthday', 'Age', 'School', 'WCGS', 'Other', 'All-Star', 'Travel', 'Positions', 'Special', 'CoachRequestName', 'PlayerRequestNames', 'JerseySize']
-    LD_19U = COACHES_19U + ['ConfidentialCoachName']
+    COACHES = ['Last Name', 'First Name', 'Address 1', 'Rating', 'Birthday', 'Age', 'WCGS', 'Other', 'All-Star', 'Travel', 'Positions', 'Special', 'CoachRequestName', 'PlayerRequestNames', 'JerseySize']
+    LD = ['Record ID'] + COACHES + ['ConfidentialCoachName']
+    COACHES_19U = ['Last Name', 'First Name', 'Address 1', 'Birthday', 'Age', 'School', 'WCGS', 'Other', 'All-Star', 'Travel', 'Positions', 'Special', 'CoachRequestName', 'PlayerRequestNames', 'JerseySize']
+    LD_19U = ['Record ID'] + COACHES_19U + ['ConfidentialCoachName']
   end
 
   def self.create_from! attributes
@@ -59,7 +59,8 @@ class Registration
       experience << 'OF' if !original['Outfield'].blank?
       attrs['Positions'] = experience.join(',')
       attrs['Age'] = age(original['Birthday'])
-      attrs['Rating'] = 0 if original['Registration Title'] =~ /19U/
+      attrs['Rating'] = 0 if attrs['Registration Title'] == RegistrationList::Divisions::SP19U[:key] || 
+                             attrs['Registration Title'] == RegistrationList::Divisions::SS[:key]
       attrs['Balance'] = original['Cost'].to_i - original['Paid'].to_i
     end
   end

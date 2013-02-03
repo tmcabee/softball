@@ -10,7 +10,7 @@ RegistrationList::Divisions.constants.each do |const|
   File.open("drafts/#{division[:abbreviation]}_league_director.csv", "w") do |f|
     f.puts registration_list.league_director_draft_for division
   end
-  File.open("output/#{division[:abbreviation]}_coaches.csv", "w") do |f|
+  File.open("drafts/#{division[:abbreviation]}_coaches.csv", "w") do |f|
     f.puts registration_list.coaches_draft_for division
   end
 end

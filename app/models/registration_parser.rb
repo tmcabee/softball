@@ -2,7 +2,7 @@ require 'csv'
 
 class RegistrationParser
   
-  def initialize file, options
+  def initialize file, options = nil
     @file = file
     @headers = nil
     @options = options

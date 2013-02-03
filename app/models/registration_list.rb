@@ -3,16 +3,16 @@ class RegistrationList
   BLANK_LINES = 20
 
   class Divisions
-  	SS    = { :abbreviation => 'SS',   :key => 'Sugar & Spice' }
-  	SSS   = { :abbreviation => 'SSS',  :key => 'Senior Sugar & Spice', :play_up_from => SS }
-  	FP8U  = { :abbreviation => '8U',   :key => '8U Universal',         :play_up_from => SSS }
-  	FP10U = { :abbreviation => '10UF', :key => '10U Fast-Pitch',       :play_up_from => FP8U }
-	  FP12U = { :abbreviation => '12UF', :key => '12U Fast-Pitch',       :play_up_from => FP10U }
-	  FP14U = { :abbreviation => '14UF', :key => '14U Fast-Pitch',       :play_up_from => FP12U }
-	  FP15  = { :abbreviation => '15F',  :key => '15+ Fast-Pitch',       :play_up_from => FP14U }
-	  SP11U = { :abbreviation => '11US', :key => '11U Slow-Pitch' }
-	  SP14U = { :abbreviation => '14US', :key => '14U Slow-Pitch',       :play_up_from => SP11U }
-	  SP19U = { :abbreviation => '19US', :key => '19U Slow-Pitch',       :play_up_from => SP14U }
+  	SS    = { :abbreviation => 'SS',   :key => 'Sugar & Spice',                                :number_of_teams => 6 }
+  	SSS   = { :abbreviation => 'SSS',  :key => 'Senior Sugar & Spice', :play_up_from => SS,    :number_of_teams => 4 }
+  	FP8U  = { :abbreviation => '8U',   :key => '8U Universal',         :play_up_from => SSS,   :number_of_teams => 13 }
+  	FP10U = { :abbreviation => '10UF', :key => '10U Fast-Pitch',       :play_up_from => FP8U,  :number_of_teams => 11 }
+	  FP12U = { :abbreviation => '12UF', :key => '12U Fast-Pitch',       :play_up_from => FP10U, :number_of_teams => 7  }
+	  FP14U = { :abbreviation => '14UF', :key => '14U Fast-Pitch',       :play_up_from => FP12U, :number_of_teams => 6 }
+	  FP15  = { :abbreviation => '15F',  :key => '15+ Fast-Pitch',       :play_up_from => FP14U, :number_of_teams => 6 }
+	  SP11U = { :abbreviation => '11US', :key => '11U Slow-Pitch',                               :number_of_teams => 4 }
+	  SP14U = { :abbreviation => '14US', :key => '14U Slow-Pitch',       :play_up_from => SP11U, :number_of_teams => 5 }
+	  SP19U = { :abbreviation => '19US', :key => '19U Slow-Pitch',       :play_up_from => SP14U, :number_of_teams => 6 }
   end
 
   def initialize options
@@ -78,7 +78,7 @@ class RegistrationList
       message += " and #{play_ups.size} play-ups from #{division[:play_up_from][:abbreviation]}" if play_ups.any?
       puts message
 
-  	  (normal + play_ups).sort_by { |reg| "#{reg[headers[0]]}|#{reg[headers[1]]}" }
+  	  (normal + play_ups).sort_by { |reg| [reg['Last Name'], reg['First Name']] }
   	end
   end
 
