@@ -13,18 +13,20 @@ class PracticeScheduleParser
     @date = nil
     @time = nil
     @fields = nil
-    @schedule = PracticeSchedule.where(:version => '2').first_or_create!
+    @schedule = PracticeSchedule.where(:version => '1').first_or_create!
   end
   
   def parse
     CSV.foreach(@file) do |row|
       unless row.any?
         @mode = Mode::FIELDS
+        @date = nil
         next
       end
       
       case @mode
       when Mode::FIELDS
+        @date = row[0] if row[0]
         @fields = row[2..-1]
         @mode = Mode::GAMES
       when Mode::GAMES
@@ -43,6 +45,7 @@ class PracticeScheduleParser
   def create_games_from row
     row.each_with_index do |col, index|
       next unless col
+      next if col == 'FP Travel'
       teams = col.split(' ')
       teams.each do |team|
         # puts @date
@@ -52,7 +55,7 @@ class PracticeScheduleParser
         other_teams = teams-[team]
         # puts "Share field with #{other_teams.join(',')}" if other_teams.any?
         # puts "--------------END-----------"
-        Practice.create_from! @schedule, start_time('2012', @date, time_with_meridiem(@time)), field_number(@fields[index]), team, other_teams
+        Practice.create_from! @schedule, start_time('2013', @date, time_with_meridiem(@time)), field_number(@fields[index]), team, other_teams
       end
     end 
   end

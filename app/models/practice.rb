@@ -8,9 +8,9 @@ class Practice < ActiveRecord::Base
 
   TYPE = 'Practice'
   
-  # scope :for_team, lambda{ |team| 
-  #   { :conditions => ["(home_team_id = ? or away_team_id=?) and canceled=?", team.id, team.id, false] }
-  # }
+  scope :for_team, lambda{ |team| 
+    { :conditions => ["team_id = ?", team.id] }
+  }
 
   def self.create_from! practice_schedule, date_time, field_number, team, other_teams
     note = other_teams.any? ? "Share field with #{other_teams.join(' & ')}" : ""
