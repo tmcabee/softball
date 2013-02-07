@@ -9,7 +9,7 @@ class Practice < ActiveRecord::Base
   TYPE = 'Practice'
   
   scope :for_team, lambda{ |team| 
-    { :conditions => ["team_id = ?", team.id] }
+    { :conditions => ["team_id = ? and canceled=?", team.id, false] }
   }
 
   def self.create_from! practice_schedule, date_time, field_number, team, other_teams
