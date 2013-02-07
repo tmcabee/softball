@@ -54,7 +54,7 @@ class Practice < ActiveRecord::Base
   end
   
   def canceled_text
-    canceled? ? 'CANCELLED' : ''
+    canceled? ? 'DELETE' : ''
   end
 
   def duration

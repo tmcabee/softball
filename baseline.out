@@ -117,7 +117,6 @@
 20130213180028U4,02-13-2013,18:00,19:15,8U4,Lost Mt. Field #2,Practice,,Share field with 8U5 & 8U6,
 20130213180028U5,02-13-2013,18:00,19:15,8U5,Lost Mt. Field #2,Practice,,Share field with 8U4 & 8U6,
 20130213180028U6,02-13-2013,18:00,19:15,8U6,Lost Mt. Field #2,Practice,,Share field with 8U4 & 8U5,
-20130213180038U1,02-13-2013,18:00,19:15,8U1,Lost Mt. Field #3,Practice,,Share field with 8U2 & 8U3,CANCELLED
 20130213180038U2,02-13-2013,18:00,19:15,8U2,Lost Mt. Field #3,Practice,,Share field with SRS1 & 8U3,
 20130213180038U3,02-13-2013,18:00,19:15,8U3,Lost Mt. Field #3,Practice,,Share field with SRS1 & 8U2,
 201302131800410UF3,02-13-2013,18:00,19:15,10UF3,Lost Mt. Field #4,Practice,,Share field with 10UF4,
@@ -175,7 +174,6 @@
 20130215180038U11,02-15-2013,18:00,19:15,8U11,Lost Mt. Field #3,Practice,,Share field with 8U9 & 8U10,
 201302151800410UF3,02-15-2013,18:00,19:15,10UF3,Lost Mt. Field #4,Practice,,Share field with 10UF4,
 201302151800410UF4,02-15-2013,18:00,19:15,10UF4,Lost Mt. Field #4,Practice,,Share field with 10UF3,
-2013021518005SRS1,02-15-2013,18:00,19:15,SRS1,Lost Mt. Field #5,Practice,,Share field with SRS2 & SRS3,CANCELLED
 2013021518005SRS2,02-15-2013,18:00,19:15,SRS2,Lost Mt. Field #5,Practice,,Share field with 8U1 & SRS3,
 2013021518005SRS3,02-15-2013,18:00,19:15,SRS3,Lost Mt. Field #5,Practice,,Share field with 8U1 & SRS2,
 20130215180068U12,02-15-2013,18:00,19:15,8U12,Lost Mt. Field #6,Practice,,Share field with 8U13,
@@ -658,9 +656,6 @@
 201303051800111US2,03-05-2013,18:00,19:15,11US2,Lost Mt. Field #1,Practice,,Share field with 11US1,
 201303051800212UF1,03-05-2013,18:00,19:15,12UF1,Lost Mt. Field #2,Practice,,Share field with 12UF2,
 201303051800212UF2,03-05-2013,18:00,19:15,12UF2,Lost Mt. Field #2,Practice,,Share field with 12UF1,
-20130305180038U1,03-05-2013,18:00,19:15,8U1,Lost Mt. Field #3,Practice,,Share field with 8U2 & 8U3,CANCELLED
-20130305180038U2,03-05-2013,18:00,19:15,8U2,Lost Mt. Field #3,Practice,,Share field with 8U1 & 8U3,CANCELLED
-20130305180038U3,03-05-2013,18:00,19:15,8U3,Lost Mt. Field #3,Practice,,Share field with 8U1 & 8U2,CANCELLED
 201303051800410UF3,03-05-2013,18:00,19:15,10UF3,Lost Mt. Field #4,Practice,,Share field with 10UF4,
 201303051800410UF4,03-05-2013,18:00,19:15,10UF4,Lost Mt. Field #4,Practice,,Share field with 10UF3,
 201303051800510UF8,03-05-2013,18:00,19:15,10UF8,Lost Mt. Field #5,Practice,,Share field with 10UF9,
@@ -684,15 +679,12 @@
 20130306180028U7,03-06-2013,18:00,19:15,8U7,Lost Mt. Field #2,Practice,,Share field with 8U8 & SRS4,
 20130306180028U8,03-06-2013,18:00,19:15,8U8,Lost Mt. Field #2,Practice,,Share field with 8U7 & SRS4,
 2013030618002SRS4,03-06-2013,18:00,19:15,SRS4,Lost Mt. Field #2,Practice,,Share field with 8U7 & 8U8,
-201303061800311US1,03-06-2013,18:00,19:15,11US1,Lost Mt. Field #3,Practice,,Share field with 11US2,
-201303061800311US2,03-06-2013,18:00,19:15,11US2,Lost Mt. Field #3,Practice,,Share field with 11US1,
+201303061800311US1,03-06-2013,18:00,19:15,11US1,Lost Mt. Field #3,Practice,,Share field with 11US2,DELETE
+201303061800311US2,03-06-2013,18:00,19:15,11US2,Lost Mt. Field #3,Practice,,Share field with 11US1,DELETE
 20130306180048U12,03-06-2013,18:00,19:15,8U12,Lost Mt. Field #4,Practice,,Share field with 8U13,
 20130306180048U13,03-06-2013,18:00,19:15,8U13,Lost Mt. Field #4,Practice,,Share field with 8U12,
 201303061800510UF8,03-06-2013,18:00,19:15,10UF8,Lost Mt. Field #5,Practice,,Share field with 10UF9,
 201303061800510UF9,03-06-2013,18:00,19:15,10UF9,Lost Mt. Field #5,Practice,,Share field with 10UF8,
-2013030618008SRS1,03-06-2013,18:00,19:15,SRS1,Lost Mt. Field #8,Practice,,Share field with SRS2 & SRS3,CANCELLED
-2013030618008SRS2,03-06-2013,18:00,19:15,SRS2,Lost Mt. Field #8,Practice,,Share field with SRS1 & SRS3,CANCELLED
-2013030618008SRS3,03-06-2013,18:00,19:15,SRS3,Lost Mt. Field #8,Practice,,Share field with SRS1 & SRS2,CANCELLED
 201303061915114US1,03-06-2013,19:15,20:30,14US1,Lost Mt. Field #1,Practice,,,
 201303061915214US5,03-06-2013,19:15,20:30,14US5,Lost Mt. Field #2,Practice,,Share field with 14US4,
 201303061915214US4,03-06-2013,19:15,20:30,14US4,Lost Mt. Field #2,Practice,,Share field with 14US5,
@@ -735,8 +727,6 @@
 201303072030515F6,03-07-2013,20:30,21:45,15F6,Lost Mt. Field #5,Practice,,,
 201303081800111US3,03-08-2013,18:00,19:15,11US3,Lost Mt. Field #1,Practice,,Share field with 11US4,
 201303081800111US4,03-08-2013,18:00,19:15,11US4,Lost Mt. Field #1,Practice,,Share field with 11US3,
-201303081800211US3,03-08-2013,18:00,19:15,11US3,Lost Mt. Field #2,Practice,,Share field with 11US4,CANCELLED
-201303081800211US4,03-08-2013,18:00,19:15,11US4,Lost Mt. Field #2,Practice,,Share field with 11US3,CANCELLED
 20130308180038U4,03-08-2013,18:00,19:15,8U4,Lost Mt. Field #3,Practice,,Share field with 8U5 & 8U6,
 20130308180038U5,03-08-2013,18:00,19:15,8U5,Lost Mt. Field #3,Practice,,Share field with 8U4 & 8U6,
 20130308180038U6,03-08-2013,18:00,19:15,8U6,Lost Mt. Field #3,Practice,,Share field with 8U4 & 8U5,
@@ -763,3 +753,5 @@
 20130306180088U3,03-06-2013,18:00,19:15,8U3,Lost Mt. Field #8,Practice,,Share field with 8U1 & 8U2,
 201303081800211US1,03-08-2013,18:00,19:15,11US1,Lost Mt. Field #2,Practice,,Share field with 11US2,
 201303081800211US2,03-08-2013,18:00,19:15,11US2,Lost Mt. Field #2,Practice,,Share field with 11US1,
+201303061800311US3,03-06-2013,18:00,19:15,11US3,Lost Mt. Field #3,Practice,,Share field with 11US4,
+201303061800311US4,03-06-2013,18:00,19:15,11US4,Lost Mt. Field #3,Practice,,Share field with 11US3,

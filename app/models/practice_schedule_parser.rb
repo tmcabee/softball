@@ -13,8 +13,8 @@ class PracticeScheduleParser
     @date = nil
     @time = nil
     @fields = nil
-    version = @file.match(/.*ver_(\d).csv/)[1]
-    @schedule = PracticeSchedule.where(:version => version.to_i).first_or_create!
+    version = @file.match(/.*ver_(.*).csv/)[1]
+    @schedule = PracticeSchedule.where(:version => version).first_or_create!
   end
   
   def parse
