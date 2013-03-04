@@ -49,6 +49,6 @@ class ConcessionsEvent < ActiveRecord::Base
   end
 
   def duration
-    ['Sat','Sun'].include?(start_time.strftime("%a")) ? 165.minutes : 195.minutes
+    ['Sat','Sun'].include?(start_time.strftime("%a")) ? 240.minutes : 240.minutes
   end
 end

@@ -8,7 +8,7 @@ class ConcessionsScheduleParser
 
   def initialize file
     @file = file
-    @schedule = ConcessionsSchedule.where(:version => '1a').first_or_create!
+    @schedule = ConcessionsSchedule.where(:version => '1').first_or_create!
   end
   
   def parse
@@ -26,10 +26,10 @@ class ConcessionsScheduleParser
   	date = row[0]
   	time = date.match(/^Sat/) ? "8:30 AM" : "5:45 PM"
   	team = row[2]
-    ConcessionsEvent.create_from!(@schedule, start_time('2012', date, time), team) unless team == 'Makeup'
+    ConcessionsEvent.create_from!(@schedule, start_time('2013', date, time), team) unless team == 'Makeup'
     if row[3]
       team = row[4]
-      ConcessionsEvent.create_from!(@schedule, start_time('2012', date, '11:15 AM'), team) unless team == 'Makeup'
+      ConcessionsEvent.create_from!(@schedule, start_time('2013', date, '12:30 PM'), team) unless team == 'Makeup'
     end
   end
   

@@ -23,6 +23,7 @@ class Game < ActiveRecord::Base
       :away_team  => Team.find_by_abbreviation(away),
       :canceled   => false
     }
+    # puts "attributes: #{attributes}"
     game = Game.where(attributes.slice(:unique_id)).first_or_initialize
     game.update_attributes! attributes
   end
@@ -58,7 +59,7 @@ class Game < ActiveRecord::Base
 
   #TODO: Confirm these hacks are necessary
   def duration
-    return 60.minutes if home_team.abbreviation =~ /^(SS|SRSS|8U)/ # Once hacks below are removed, 10US should be added to this list
+    return 60.minutes if home_team.abbreviation =~ /^(SS|SRS|8U)/ # Once hacks below are removed, 10US should be added to this list
     return 60.minutes if home_team.abbreviation =~ /^10U/ && military_start_time == "18:15" # HACK: 10UF games should be 75 minutes
     return 60.minutes if home_team.abbreviation =~ /^10US/ && ['Sat','Sun'].include?(start_time.strftime("%a")) # HACK: 10US games should be 60 regardless of weekday/weeknight
     75.minutes

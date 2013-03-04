@@ -57,13 +57,13 @@ class ScheduleParser
     end
   end
   
-  #TODO: Parse season so I can stop hard-coding '2012'
+  #TODO: Parse season so I can stop hard-coding '2013'
   def create_games_from row
     row.each_with_index do |col, index|
       next unless col
       home, away = col.split("vs.")
       next unless away
-      Game.create_from! @schedule, start_time('2012', @date, time_with_meridiem(@times[index])), field_number(@fields[index]), sanitize(home), sanitize(away)
+      Game.create_from! @schedule, start_time('2013', @date, time_with_meridiem(@times[index])), field_number(@fields[index]), sanitize(home), sanitize(away)
     end 
   end
   
