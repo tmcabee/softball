@@ -5,13 +5,14 @@ class PracticeScheduleParser
   module Mode
     FIELDS  = :fields
     GAMES   = :games
+    TIMES   = :times
   end
 
   def initialize file
     @file = file
     @mode = Mode::FIELDS
     @date = nil
-    @time = nil
+    @times = nil
     @fields = nil
     version = @file.match(/.*ver_(.*).csv/)[1]
     @schedule = PracticeSchedule.where(:version => version).first_or_create!
@@ -25,15 +26,20 @@ class PracticeScheduleParser
         next
       end
       
+      # puts "mode: #{@mode}"
+
       case @mode
       when Mode::FIELDS
         @date = row[0] if row[0]
-        @fields = row[2..-1]
+        @fields = row[1..-1]
+        @mode = Mode::TIMES
+      when Mode::TIMES
+        @times = row[1..-1]
         @mode = Mode::GAMES
       when Mode::GAMES
         @date = row[0] if row[0]
-        @time = row[1]
-        create_games_from row[2..-1]
+        create_games_from row[1..-1]
+        @mode = Mode::TIMES
       end
     end
     
@@ -44,19 +50,21 @@ class PracticeScheduleParser
   
   #TODO: Parse season so I can stop hard-coding '2012'
   def create_games_from row
+    # puts "times: #{@times}"
+    # puts "row: #{row}"
     row.each_with_index do |col, index|
       next unless col
-      next if col == 'FP Travel'
-      teams = col.split(' ')
+      next if ['empty','County has fields'].include?(col)
+      teams = col.split('/')
       teams.each do |team|
         # puts @date
-        # puts @time
+        # puts @times[index]
         # puts field_number(@fields[index])
         # puts team
         other_teams = teams-[team]
         # puts "Share field with #{other_teams.join(',')}" if other_teams.any?
         # puts "--------------END-----------"
-        Practice.create_from! @schedule, start_time('2013', @date, time_with_meridiem(@time)), field_number(@fields[index]), team, other_teams
+        Practice.create_from! @schedule, start_time('2013', @date, time_with_meridiem(@times[index])), field_number(@fields[index]), team, other_teams
       end
     end 
   end
