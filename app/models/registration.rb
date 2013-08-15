@@ -42,7 +42,7 @@ class Registration
 
   def sanitized original
     original.dup.tap do |attrs|
-      attrs['Registration Title'] = original['Registration Title'].gsub(" (2013 Spring)", "")
+      attrs['Registration Title'] = original['Registration Title'].gsub(" (2013 Fall)", "")
       attrs['ConcessionRequirement'] = concession_requirement_field(original['ConcessionRequirement'])
       attrs['Waitlisted'] = on_waitlist?(original) ? 'Y' : ''
       attrs['Needs Ticket'] = needs_ticket?(original) ? 'YES' : ''
