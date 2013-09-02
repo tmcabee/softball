@@ -4,7 +4,6 @@ class ScheduleParser
   
   module Mode
     VERSION = :version
-    DATE    = :date
     FIELDS  = :fields
     TIMES   = :times
     GAMES   = :games
@@ -21,26 +20,30 @@ class ScheduleParser
   
   def parse
     CSV.foreach(@file) do |row|
+      row = row[0..6]
+      # puts "mode: #{@mode}"
       unless row.any?
-        @mode = Mode::DATE if @schedule
+        @mode = Mode::FIELDS if @schedule
         next
       end
       
       case @mode
       when Mode::VERSION
         identify_schedule_from row
-        @mode = Mode::DATE if @schedule
-      when Mode::DATE
-        @date = row[0]
-        @mode = Mode::FIELDS
+        @mode = Mode::FIELDS if @schedule
       when Mode::FIELDS
-        @fields = row
+        next unless row[0]
+        @date = row[0]
+        @fields = row[1..6]
         @mode = Mode::TIMES
       when Mode::TIMES
-        @times = row
+        @times = row[1..6]
         @mode = Mode::GAMES
       when Mode::GAMES
-        create_games_from row
+        # puts "date: #{@date}"
+        # puts "fields: #{@fields}"
+        # puts "times: #{@times}"
+        create_games_from row[1..6]
         @mode = Mode::TIMES
       end
     end
@@ -61,7 +64,7 @@ class ScheduleParser
   def create_games_from row
     row.each_with_index do |col, index|
       next unless col
-      home, away = col.split("vs.")
+      home, away = col.split("vs")
       next unless away
       Game.create_from! @schedule, start_time('2013', @date, time_with_meridiem(@times[index])), field_number(@fields[index]), sanitize(home), sanitize(away)
     end 
