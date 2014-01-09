@@ -1,9 +1,11 @@
 class Registration
 
+  CURRENT_SEASON = '2014 Spring'
+
   class Format
     MASTER = ['Record ID', 'Last Name', 'First Name', 'Needs Ticket', 'Balance', 'Deposit Check Received', 'Registration Title', 'Birthday', 'PlayUpRequest', 'ConcessionRequirement', 'CC Invoice', 'Check No.', 'Cost', 'Paid', 'Waitlisted', 'Notes']
-    COACHES = ['Last Name', 'First Name', 'Hitting', 'Running', 'Fielding', 'Throwing', 'TOTAL', 'Pitching', 'Catching', 'Coach Notes']
-    LD = ['Last Name', 'First Name', 'Needs Ticket']
+    COACHES = ['Last Name', 'First Name', 'Birthday', 'Play-up Candidate', 'Hitting', 'Running', 'Fielding', 'Throwing', 'TOTAL', 'Pitching', 'Catching', 'Skills Notes']
+    LD = ['Last Name', 'First Name', 'Birthday', 'Have Concession Check', 'Have Payment', 'Play-up Candidate', 'Skills Notes']
   end
 
   class DraftFormat
@@ -28,6 +30,10 @@ class Registration
     @attributes[column_name]
   end
   
+  def []=(column_name, value)
+    @attributes[column_name] = value
+  end
+
   def rating_missing?
     @attributes['Rating'].to_i == 0 && 
     @attributes['Registration Title'] != "Sugar & Spice" && 
@@ -42,10 +48,12 @@ class Registration
 
   def sanitized original
     original.dup.tap do |attrs|
-      attrs['Registration Title'] = original['Registration Title'].gsub(" (2013 Fall)", "")
+      attrs['Registration Title'] = original['Registration Title'].gsub(" (#{CURRENT_SEASON})", "")
       attrs['ConcessionRequirement'] = concession_requirement_field(original['ConcessionRequirement'])
+      attrs['Play-up Candidate'] = original['PlayUpRequest'] == 'Checked' ? 'X' : ''
       attrs['Waitlisted'] = on_waitlist?(original) ? 'Y' : ''
-      attrs['Needs Ticket'] = needs_ticket?(original) ? 'YES' : ''
+      attrs['Have Concession Check'] = need_concession_check?(original) ? '' : 'X'
+      attrs['Have Payment'] = need_payment?(original) ? '' : 'X'
       raw_rating = original['Rating'].to_i
       attrs['Rating'] =  raw_rating == 0 ? 0 : raw_rating/10.0
       attrs['WCGS'] = experience_value_of original['ExperienceWCGS']
@@ -89,10 +97,12 @@ class Registration
     attributes['Waitlisted'] == 'True'
   end
 
-  def needs_ticket? attributes
-    return false if on_waitlist?(attributes)
-    attributes['Paid'].to_i < attributes['Cost'].to_i ||
-    attributes['Notes'] =~ /^NEED/ ||
+  def need_concession_check? attributes
+    # return false if on_waitlist?(attributes)
     attributes['ConcessionRequirement'] =~ /deposit$/ && attributes['Deposit Check Received'].blank?
+  end
+
+  def need_payment? attributes
+    attributes['Paid'].to_i < attributes['Cost'].to_i
   end
 end

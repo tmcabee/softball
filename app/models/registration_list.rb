@@ -4,14 +4,15 @@ class RegistrationList
 
   class Divisions
   	SS    = { :abbreviation => 'SS',   :key => 'Sugar & Spice',                                :number_of_teams => 7 }
-  	# SSS   = { :abbreviation => 'SSS',  :key => 'Senior Sugar & Spice', :play_up_from => SS,    :number_of_teams => 4 }
-  	FP8U  = { :abbreviation => '8U',   :key => '8U Universal',         :play_up_from => SS,   :number_of_teams => 9 }
+  	SRSS  = { :abbreviation => 'SRS',  :key => 'Senior Sugar & Spice', :play_up_from => SS,    :number_of_teams => 4 }
+  	FP8U  = { :abbreviation => '8U',   :key => '8U Universal',         :play_up_from => SRSS,  :number_of_teams => 9 }
   	FP10U = { :abbreviation => '10UF', :key => '10U Fast-Pitch',       :play_up_from => FP8U,  :number_of_teams => 9 }
-	  FP13U = { :abbreviation => '13UF', :key => '13U Fast-Pitch',       :play_up_from => FP10U, :number_of_teams => 7  }
-	  # FP14U = { :abbreviation => '14UF', :key => '14U Fast-Pitch',       :play_up_from => FP12U, :number_of_teams => 6 }
-	  FP14  = { :abbreviation => '14F',  :key => '14+ Fast-Pitch',       :play_up_from => FP13U, :number_of_teams => 4 }
-	  SP11U = { :abbreviation => '11US', :key => '11U Slow-Pitch',                               :number_of_teams => 3 }
-	  SP14U = { :abbreviation => '14US', :key => '14U Slow-Pitch',       :play_up_from => SP11U, :number_of_teams => 3 }
+	  FP12U = { :abbreviation => '12UF', :key => '12U Fast-Pitch',       :play_up_from => FP10U, :number_of_teams => 7  }
+	  FP14U = { :abbreviation => '14UF', :key => '14U Fast-Pitch',       :play_up_from => FP12U, :number_of_teams => 6 }
+	  FP15  = { :abbreviation => '15F',  :key => '15+ Fast-Pitch',       :play_up_from => FP14U, :number_of_teams => 4 }
+	  SP10U = { :abbreviation => '10US', :key => '10U Slow-Pitch',                               :number_of_teams => 3 }
+    SP12U = { :abbreviation => '12US', :key => '12U Slow-Pitch',       :play_up_from => SP10U, :number_of_teams => 3 }
+	  SP14U = { :abbreviation => '14US', :key => '14U Slow-Pitch',       :play_up_from => SP12U, :number_of_teams => 3 }
 	  SP19U = { :abbreviation => '19US', :key => '19U Slow-Pitch',       :play_up_from => SP14U, :number_of_teams => 3 }
   end
 
@@ -55,7 +56,7 @@ class RegistrationList
 
   def registrations master_sheet = false
     return @registrations unless @options.include? 'make_up'
-    master_sheet ? @registrations.select { |reg| reg.rating_missing? || reg['Needs Ticket'] == 'YES' } : 
+    master_sheet ? @registrations.select { |reg| reg.rating_missing? || reg['Have Concession Check'] == '' } : 
                    @registrations.select { |reg| reg.rating_missing? }
   end
 
@@ -71,14 +72,16 @@ class RegistrationList
 
   def skills_data_for division, headers
   	to_csv headers do
-  	  normal = divisions[division[:key]].select { |reg| division[:abbreviation] == '14US' || reg['PlayUpRequest'] != 'Checked' }
-  	  play_ups = division[:play_up_from] && divisions[division[:play_up_from][:key]] ? divisions[division[:play_up_from][:key]].select { |reg| reg['PlayUpRequest'] == 'Checked' } : []
+  	  normal, playing_up = divisions[division[:key]].partition { |reg| division[:abbreviation] == '14US' || reg['PlayUpRequest'] != 'Checked' }
+      playing_up.each { |reg| reg['Skills Notes'] = 'Should be at older skills assessments' }
+  	  playing_up_from_lower = division[:play_up_from] && divisions[division[:play_up_from][:key]] ? divisions[division[:play_up_from][:key]].select { |reg| reg['PlayUpRequest'] == 'Checked' } : []
 
       message = "For #{division[:abbreviation]}, adding #{normal.size} normal" 
-      message += " and #{play_ups.size} play-ups from #{division[:play_up_from][:abbreviation]}" if play_ups.any?
+      message += ", #{playing_up.size} play-ups from #{division[:abbreviation]}" if playing_up.any?
+      message += " and #{playing_up_from_lower.size} play-ups from #{division[:play_up_from][:abbreviation]}" if playing_up_from_lower.any?
       puts message
 
-  	  (normal + play_ups).sort_by { |reg| [reg['Last Name'], reg['First Name']] }
+  	  (normal + playing_up + playing_up_from_lower).sort_by { |reg| [reg['Last Name'], reg['First Name']] }
   	end
   end
 
