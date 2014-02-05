@@ -10,14 +10,13 @@ File.open("skills/master_list.csv", "w") do |f|
   f.puts registration_list.master_list
 end
 
-RegistrationList::Divisions.constants.each do |const|
-  next if const == :SS || const == :SP19U
-  division = RegistrationList::Divisions.const_get(const)
-  puts "Generating sheets for #{division[:abbreviation]}"
-  File.open("skills/#{division[:abbreviation]}_league_director.csv", "w") do |f|
+Division.all.each do |division|
+  next if division.no_skills_test?
+  puts "Generating sheets for #{division.abbreviation}"
+  File.open("skills/#{division.abbreviation}_league_director.csv", "w") do |f|
     f.puts registration_list.league_director_list_for division
   end
-  File.open("skills/#{division[:abbreviation]}_coaches.csv", "w") do |f|
+  File.open("skills/#{division.abbreviation}_coaches.csv", "w") do |f|
     f.puts registration_list.coaches_list_for division
   end
 end

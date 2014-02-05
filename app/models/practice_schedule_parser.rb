@@ -54,7 +54,7 @@ class PracticeScheduleParser
     # puts "row: #{row}"
     row.each_with_index do |col, index|
       next unless col
-      next if ['empty','County has fields'].include?(col)
+      next if ['empty','open'].include?(col)
       teams = col.split('/')
       teams.each do |team|
         # puts @date
@@ -64,7 +64,7 @@ class PracticeScheduleParser
         other_teams = teams-[team]
         # puts "Share field with #{other_teams.join(',')}" if other_teams.any?
         # puts "--------------END-----------"
-        Practice.create_from! @schedule, start_time('2013', @date, time_with_meridiem(@times[index])), field_number(@fields[index]), team, other_teams
+        Practice.create_from! @schedule, start_time('2014', @date, time_with_meridiem(@times[index])), field_number(@fields[index]), team, other_teams
       end
     end 
   end

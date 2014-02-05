@@ -3,9 +3,9 @@ class Registration
   CURRENT_SEASON = '2014 Spring'
 
   class Format
-    MASTER = ['Record ID', 'Last Name', 'First Name', 'Needs Ticket', 'Balance', 'Deposit Check Received', 'Registration Title', 'Birthday', 'PlayUpRequest', 'ConcessionRequirement', 'CC Invoice', 'Check No.', 'Cost', 'Paid', 'Waitlisted', 'Notes']
+    MASTER = ['Record ID', 'Last Name', 'First Name', 'Have Concession Check', 'Balance', 'Deposit Check Received', 'Registration Title', 'Birthday', 'PlayUpRequest', 'ConcessionRequirement', 'CC Invoice', 'Check No.', 'Cost', 'Paid', 'Waitlisted', 'Notes']
     COACHES = ['Last Name', 'First Name', 'Birthday', 'Play-up Candidate', 'Hitting', 'Running', 'Fielding', 'Throwing', 'TOTAL', 'Pitching', 'Catching', 'Skills Notes']
-    LD = ['Last Name', 'First Name', 'Birthday', 'Have Concession Check', 'Have Payment', 'Play-up Candidate', 'Skills Notes']
+    LD = ['Last Name', 'First Name', 'Birthday', 'Have Concession Check', 'Balance', 'Waitlisted', 'Play-up Candidate', 'Skills Notes']
   end
 
   class DraftFormat
@@ -35,27 +35,40 @@ class Registration
   end
 
   def rating_missing?
-    @attributes['Rating'].to_i == 0 && 
-    @attributes['Registration Title'] != "Sugar & Spice" && 
-    @attributes['Registration Title'] != "19U Slow-Pitch"
+    @attributes['Rating'].to_i == 0.0
+  end
+
+  def rating_required?
+    not_required = (@attributes['Registration Title'] == "Sugar & Spice" && @attributes['Play-up Candidate'].blank?) ||
+                   @attributes['Registration Title'] == "19U Slow-Pitch"
+
+    !not_required
   end
 
   protected
 
   def initialize attributes
+    @division ||= Division.find_by_key registration_title(attributes['Registration Title'])
     @attributes = sanitized attributes
+  end
+
+  def division
+    @division
+  end
+
+  def registration_title original_title
+    original_title.gsub(" (#{CURRENT_SEASON})", "")
   end
 
   def sanitized original
     original.dup.tap do |attrs|
-      attrs['Registration Title'] = original['Registration Title'].gsub(" (#{CURRENT_SEASON})", "")
+      attrs['Registration Title'] = registration_title original['Registration Title']
       attrs['ConcessionRequirement'] = concession_requirement_field(original['ConcessionRequirement'])
       attrs['Play-up Candidate'] = original['PlayUpRequest'] == 'Checked' ? 'X' : ''
-      attrs['Waitlisted'] = on_waitlist?(original) ? 'Y' : ''
+      attrs['Waitlisted'] = on_waitlist?(original) ? 'X' : ''
       attrs['Have Concession Check'] = need_concession_check?(original) ? '' : 'X'
-      attrs['Have Payment'] = need_payment?(original) ? '' : 'X'
-      raw_rating = original['Rating'].to_i
-      attrs['Rating'] =  raw_rating == 0 ? 0 : raw_rating/10.0
+      raw_rating = "#{original['Rating'].to_i}.#{original['Weight'].to_i}".to_f
+      attrs['Rating'] = raw_rating
       attrs['WCGS'] = experience_value_of original['ExperienceWCGS']
       attrs['Other'] = experience_value_of original['ExperienceOther']
       attrs['All-Star'] = experience_value_of original['ExperienceAllStar']
@@ -67,9 +80,10 @@ class Registration
       experience << 'OF' if !original['Outfield'].blank?
       attrs['Positions'] = experience.join(',')
       attrs['Age'] = age(original['Birthday'])
-      attrs['Rating'] = 0 if attrs['Registration Title'] == RegistrationList::Divisions::SP19U[:key] || 
-                             attrs['Registration Title'] == RegistrationList::Divisions::SS[:key]
-      attrs['Balance'] = original['Cost'].to_i - original['Paid'].to_i
+      balance = original['Cost'].to_i - original['Paid'].to_i
+      attrs['Balance'] = balance unless balance.zero?
+      attrs['Skills Notes'] = "Attempting to play up to #{division.play_up_to.key}" if original['PlayUpRequest'] == 'Checked'
+      # attrs['Rating'] = 0.0 if division.no_skills_test?
     end
   end
 
