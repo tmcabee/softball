@@ -66,7 +66,7 @@ class ScheduleParser
       next unless col
       home, away = col.split("vs")
       next unless away
-      Game.create_from! @schedule, start_time('2013', @date, time_with_meridiem(@times[index])), field_number(@fields[index]), sanitize(home), sanitize(away)
+      Game.create_from! @schedule, start_time('2014', @date, time_with_meridiem(@times[index])), field_number(@fields[index]), sanitize(home), sanitize(away)
     end 
   end
   
