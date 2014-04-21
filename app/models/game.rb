@@ -13,6 +13,10 @@ class Game < ActiveRecord::Base
     { :conditions => ["(home_team_id = ? or away_team_id=?) and canceled=?", team.id, team.id, false] }
   }
 
+  scope :future_canceled, lambda{ |team|
+    { :conditions => ["(home_team_id = ? or away_team_id=?) and canceled=? and start_time > ?", team.id, team.id, true, Time.now.to_s(:db)] }
+  }
+
   def self.create_from! schedule, date_time, field_number, home, away
     attributes = {
       :unique_id  => "#{date_time.strftime("%Y%m%d%H%M")}#{field_number}#{home}#{away}",
