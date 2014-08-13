@@ -54,7 +54,7 @@ class PracticeScheduleParser
     # puts "row: #{row}"
     row.each_with_index do |col, index|
       next unless col
-      next if ['empty','open'].include?(col)
+      next if ['empty','open'].include?(col.downcase)
       teams = col.split('/')
       teams.each do |team|
         # puts @date

@@ -8,6 +8,6 @@ class Division < ActiveRecord::Base
   end
 
   def play_up_to
-  	Division.find_by_id(id+1) unless ['15F', '19US'].include?(abbreviation)
+  	Division.find_by_id(id+1) unless ['14F', '19US'].include?(abbreviation)
   end
 end

@@ -9,17 +9,17 @@
   Field.find_or_create_by_number_and_description field_number, "Lost Mt. Field ##{field_number}"
 end
 
-Division.create! :abbreviation => 'SS',   :key => 'Sugar & Spice',        :number_of_teams => 5
-Division.create! :abbreviation => 'SRS',  :key => 'Senior Sugar & Spice', :number_of_teams => 5
-Division.create! :abbreviation => '8U',   :key => '8U Universal',         :number_of_teams => 12
+Division.create! :abbreviation => 'SS',   :key => 'Sugar & Spice',        :number_of_teams => 6
+# Division.create! :abbreviation => 'SRS',  :key => 'Senior Sugar & Spice', :number_of_teams => 5
+Division.create! :abbreviation => '8U',   :key => '8U Universal',         :number_of_teams => 9
 Division.create! :abbreviation => '10UF', :key => '10U Fast-Pitch',       :number_of_teams => 10
-Division.create! :abbreviation => '12UF', :key => '12U Fast-Pitch',       :number_of_teams => 7
-Division.create! :abbreviation => '14UF', :key => '14U Fast-Pitch',       :number_of_teams => 3
-Division.create! :abbreviation => '15F',  :key => '15+ Fast-Pitch',       :number_of_teams => 6
+Division.create! :abbreviation => '13UF', :key => '13U Fast-Pitch',       :number_of_teams => 7
+# Division.create! :abbreviation => '14UF', :key => '14U Fast-Pitch',       :number_of_teams => 3
+Division.create! :abbreviation => '14F',  :key => '14+ Fast-Pitch',       :number_of_teams => 4
 # Division.create! :abbreviation => '10US', :key => '10U Slow-Pitch',       :number_of_teams => 4
-Division.create! :abbreviation => '12US', :key => '12U Slow-Pitch',       :number_of_teams => 3
-Division.create! :abbreviation => '14US', :key => '14U Slow-Pitch',       :number_of_teams => 4
-Division.create! :abbreviation => '19US', :key => '19U Slow-Pitch',       :number_of_teams => 5
+Division.create! :abbreviation => '12US', :key => '12U Slow-Pitch',       :number_of_teams => 4
+# Division.create! :abbreviation => '14US', :key => '14U Slow-Pitch',       :number_of_teams => 4
+Division.create! :abbreviation => '19US', :key => '19U Slow-Pitch',       :number_of_teams => 4
 
 Division.all.each do |division|
   division.number_of_teams.times do |index|
