@@ -63,7 +63,7 @@ class Game < ActiveRecord::Base
 
   #TODO: Confirm these hacks are necessary
   def duration
-    return 60.minutes if home_team.abbreviation =~ /^(SS|SRS|8U|11US|14US|19US)/
+    return 60.minutes if home_team.abbreviation =~ /^(SS|SRS|8U|\d\dUS)/
     75.minutes
   end
 end
