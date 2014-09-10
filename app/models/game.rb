@@ -45,6 +45,10 @@ class Game < ActiveRecord::Base
       canceled_text ].join(',')
   end
   
+  def opponent_of(team)
+    home_team == team ? away_team : home_team
+  end
+
   def date
     start_time.strftime("%m-%d-%Y")
   end

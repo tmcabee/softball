@@ -14,4 +14,24 @@ class Team < ActiveRecord::Base
   def practices
     Practice.for_team(self)
   end
+
+  def opponents
+    games.group_by { |g| g.opponent_of(self) }.map { |opponent,games| "#{opponent.abbreviation} - #{games.size}" }
+  end
+
+  def opponent_summary
+    "#{abbreviation} - #{opponents}"
+  end
+
+  def game_summary
+    "#{abbreviation} - #{games.count} (H - #{home_games.count}, A - #{away_games.count})"
+  end
+
+  def schedule_summary
+    "#{game_summary} : #{opponents}"
+  end
+
+  def double_headers
+    games.group_by { |g| g.date }.map { |date,games| date if games.size > 1 }.compact
+  end
 end
