@@ -1,6 +1,6 @@
   class Registration
 
-  CURRENT_SEASON = '2014 Fall'
+  CURRENT_SEASON = '2015 Spring'
 
   class Format
     MASTER = ['Record ID', 'Last Name', 'First Name', 'Have Concession Check', 'Balance', 'Deposit Check Received', 'Registration Title', 'Birthday', 'PlayUpRequest', 'ConcessionRequirement', 'CC Invoice', 'Check No.', 'Cost', 'Paid', 'Waitlisted', 'Notes']
@@ -39,8 +39,7 @@
   end
 
   def rating_required?
-    not_required = (@attributes['Registration Title'] == "Sugar & Spice" && @attributes['Play-up Candidate'].blank?) ||
-                   @attributes['Registration Title'] == "19U Slow-Pitch"
+    not_required = @attributes['Registration Title'] == "Sugar & Spice" && @attributes['Play-up Candidate'].blank?
 
     !not_required
   end
@@ -99,6 +98,7 @@
   end
 
   def experience_value_of attribute
+    return '' if attribute.nil?
     attribute == 'None' ? '' : attribute.split(' ').first
   end
 
