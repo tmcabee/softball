@@ -36,7 +36,7 @@ gem 'capistrano'
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
-gem 'mysql2'
+gem 'pg'
 
 group :development, :test do
   gem "mocha"
