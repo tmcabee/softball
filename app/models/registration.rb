@@ -1,6 +1,6 @@
   class Registration
 
-  CURRENT_SEASON = '2015 Spring'
+  CURRENT_SEASON = '2015 Fall'
 
   class Format
     MASTER = ['Record ID', 'Last Name', 'First Name', 'Have Concession Check', 'Balance', 'Deposit Check Received', 'Registration Title', 'Birthday', 'PlayUpRequest', 'ConcessionRequirement', 'CC Invoice', 'Check No.', 'Cost', 'Paid', 'Waitlisted', 'Notes']
